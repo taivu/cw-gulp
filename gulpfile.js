@@ -17,6 +17,48 @@ var browserSync     = require('browser-sync').create(siteUrl);
     browserSync     = require('browser-sync').get(siteUrl);
 
 
+// config obj for SASS compilation
+var configSASS = {
+  outputStyle: 'compressed', 
+  importer: compass
+}
+
+// config obj for Browser-Sync init
+var configBS = {
+  logLevel: 'debug',
+  logPrefix: siteUrl,
+  open: false,
+  proxy: siteUrl,
+  host: siteUrl,
+  port: 4000,
+  notify: {
+    styles: {
+      top: 'auto',
+      bottom: '0',
+
+      margin: '0px',
+      padding: '10px',
+      position: 'fixed',
+      fontSize: '16px',
+      zIndex: '9999',
+      borderRadius: '5px 0px 0px',
+      color: 'white',
+      textAlign: 'center',
+      display: 'block',
+      width: '100%',
+      backgroundColor: 'rgba(60, 197, 31, 0.75)'
+    }
+  },
+  // uncomment for static server
+  // serveStatic: [{
+  //     route: ['/build', '/build/css'],
+  //     dir: ['./build', './../css']
+  // }],
+  // serveStaticOptions: {
+  //     fallthrough: false
+  // }
+}
+
 
 // ==================================================
 // Tasks
@@ -24,14 +66,14 @@ var browserSync     = require('browser-sync').create(siteUrl);
 
 // compile sass and return stream
 gulp.task('sass', function () {
-    return gulp.src('sass/**/*.scss')
-        .pipe(plumber())
-        .pipe(sourcemaps.init())
-        .pipe(sass({outputStyle: 'compressed', importer: compass}).on('error', sass.logError))
-        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 7', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('css'))
-        .pipe(browserSync.stream({match: '**/style.css'}));
+  return gulp.src('sass/**/*.scss')
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(sass(configSASS).on('error', sass.logError))
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 7', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('css'))
+    .pipe(browserSync.stream({match: '**/style.css'})); // this line injects style.css
 });
 
 
@@ -39,42 +81,10 @@ gulp.task('sass', function () {
 // ==================================================
 // MAIN TASK 
 // ==================================================
-gulp.task('watch', function(){
+gulp.task('default', function(){
 
   // set up browsersync server
-  browserSync.init({
-    logLevel: 'debug',
-    logPrefix: siteUrl,
-    open: false,
-    proxy: siteUrl,
-    host: siteUrl,
-    port: 4000,
-    notify: {
-      styles: {
-        top: 'auto',
-        bottom: '0',
-
-        margin: '0px',
-        padding: '10px',
-        position: 'fixed',
-        fontSize: '16px',
-        zIndex: '9999',
-        borderRadius: '5px 0px 0px',
-        color: 'white',
-        textAlign: 'center',
-        display: 'block',
-        width: '100%',
-        backgroundColor: 'rgba(60, 197, 31, 0.75)'
-      }
-    }
-    // serveStatic: [{
-    //     route: ['/build', '/build/css'],
-    //     dir: ['./build', './../css']
-    // }],
-    // serveStaticOptions: {
-    //     fallthrough: false
-    // }
-  });
+  browserSync.init(configBS);
 
   // watch for changes on these files
   gulp.watch('sass/**/*.scss', ['sass']);
