@@ -49,6 +49,24 @@ gulp.task('watch', function(){
     proxy: siteUrl,
     host: siteUrl,
     port: 4000,
+    notify: {
+      styles: {
+        top: 'auto',
+        bottom: '0',
+
+        margin: '0px',
+        padding: '10px',
+        position: 'fixed',
+        fontSize: '16px',
+        zIndex: '9999',
+        borderRadius: '5px 0px 0px',
+        color: 'white',
+        textAlign: 'center',
+        display: 'block',
+        width: '100%',
+        backgroundColor: 'rgba(60, 197, 31, 0.75)'
+      }
+    }
     // serveStatic: [{
     //     route: ['/build', '/build/css'],
     //     dir: ['./build', './../css']
