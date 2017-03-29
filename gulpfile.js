@@ -71,22 +71,24 @@ gulp.task('sass', function () {
     .pipe(plumber())
     .pipe(sourcemaps.init())
     //.pipe(sass(configSASS).on('error', sass.logError))
-    .pipe(sass(configSASS).on('error', sassError(error)))
+    .pipe(
+      sass(configSASS)
+      .on('error', function(error) {
+        //sass.logError(error);
+        console.log(error.messageFormatted);
+        browserSync.notify(
+          '<pre style="max-width: 600px; text-align: left; margin: 0;">' +
+          '<strong style="color: red;">SASS ERROR</strong><br>' + 
+          error.formatted +
+          '</pre>'
+          , 60000);
+      }))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 7', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('css'))
     .pipe(browserSync.stream({match: '**/style.css'})); // this line injects style.css
 });
 
-function sassError(error) {
-  console.log(error.messageFormatted);
-  browserSync.notify(
-    '<pre style="max-width: 600px; text-align: left; margin: 0;">' +
-    '<strong style="color: red;">SASS ERROR</strong><br>' + 
-    error.formatted +
-    '</pre>'
-    , 10000); // 10 seconds
-}
 
 // ==================================================
 // MAIN TASK 
