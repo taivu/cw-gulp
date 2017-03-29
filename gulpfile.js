@@ -31,24 +31,25 @@ var configBS = {
   proxy: siteUrl,
   host: siteUrl,
   port: 4000,
-  notify: {
-    styles: {
-      top: 'auto',
-      bottom: '0',
+  // uncomment to customize browser-sync notifications
+  // notify: {
+  //   styles: {
+  //     top: 'auto',
+  //     bottom: '0',
 
-      margin: '0px',
-      padding: '10px',
-      position: 'fixed',
-      fontSize: '16px',
-      zIndex: '9999',
-      borderRadius: '5px 0px 0px',
-      color: 'white',
-      textAlign: 'center',
-      display: 'block',
-      width: '100%',
-      backgroundColor: 'rgba(60, 197, 31, 0.75)'
-    }
-  },
+  //     margin: '0px',
+  //     padding: '10px',
+  //     position: 'fixed',
+  //     fontSize: '16px',
+  //     zIndex: '9999',
+  //     borderRadius: '5px 0px 0px',
+  //     color: 'white',
+  //     textAlign: 'center',
+  //     display: 'block',
+  //     width: '100%',
+  //     backgroundColor: 'rgba(60, 197, 31, 0.75)'
+  //   }
+  // },
   // uncomment for static server
   // serveStatic: [{
   //     route: ['/build', '/build/css'],
@@ -76,7 +77,15 @@ gulp.task('sass', function () {
     .pipe(browserSync.stream({match: '**/style.css'})); // this line injects style.css
 });
 
-
+function sassError(error) {
+  console.log(error.messageFormatted);
+  browserSync.notify(
+    '<pre style="max-width: 600px; text-align: left; margin: 0;">' +
+    '<strong style="color: red;">SASS ERROR</strong><br>' + 
+    error.formatted +
+    '</pre>'
+    , 10000); // 10 seconds
+}
 
 // ==================================================
 // MAIN TASK 
