@@ -1,5 +1,5 @@
 // CONFIG ________________________________________
-var siteUrl = __dirname.split('/pub/')[0].split('/').pop() + '.sandbox';
+var siteUrl = __dirname.split('/pub/')[0].split('/').pop() + '.test'; // use '.test' or .sandbox. I like '.test'
 
 
 // REQUIRES ________________________________________
