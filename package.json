@@ -2,6 +2,9 @@
   "name": "taivu-gulp",
   "version": "1.0.0",
   "description": "Tai Vu Gulp Experiment for Front Ending @ Cyberwoven",
+  "author": "Tai Vu <taivu4u@gmail.com>",
+  "repository": "https://github.com/taivu/cw-gulp",
+  "license": "MIT",
   "main": "gulpfile.js",
   "devDependencies": {
     "browser-sync": "^2.18.8",
