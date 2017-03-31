@@ -93,7 +93,12 @@ var config {
       "declaration-block-no-duplicate-properties": true,
       "string-quotes": "single",
       "value-no-vendor-prefix": true,
-      "rule-empty-line-before": "always",
+      "rule-empty-line-before": [ "always-multi-line", 
+        { 
+          except: ["after-single-line-comment"],
+          ignore: ["inside-block"]
+        }
+      ],
       // "max-empty-lines": 5,
       // "number-leading-zero": "never",
       //"number-no-trailing-zeros": true,
