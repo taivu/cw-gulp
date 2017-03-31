@@ -74,7 +74,42 @@ var config {
     'opera 12.1', 
     'ios 6', 
     'android 4'
-  ]
+  ],
+  stylelint: {
+    "ignoreFiles": [
+      "sass/modules/*.scss",
+      "sass/vendors/*.scss"
+    ],
+    "rules": {
+      "block-no-empty": true,
+      "color-no-invalid-hex": true,
+      "declaration-colon-space-after": "always",
+      "declaration-colon-space-before": "never",
+      "function-comma-space-after": "always",
+      "function-url-quotes": "always",
+      "property-no-vendor-prefix": true,
+      "declaration-block-no-duplicate-properties": true,
+      "string-quotes": "single",
+      "value-no-vendor-prefix": true,
+
+      // "max-empty-lines": 5,
+      // "number-leading-zero": "never",
+      //"number-no-trailing-zeros": true,
+      //"selector-list-comma-space-before": "never",
+      //"selector-list-comma-newline-after": "always",
+      // "declaration-block-single-line-max-declarations": 1,
+      // "no-descending-specificity": true,
+      // "block-closing-brace-empty-line-before": "never",
+      // "block-opening-brace-space-before": "always",
+      // "block-closing-brace-newline-after": "always",
+      // "declaration-block-trailing-semicolon": "always",
+      // "no-extra-semicolons": true,
+      // "selector-combinator-space-before": "always",
+      // "selector-combinator-space-after": "always",
+      // "selector-list-comma-newline-after": "always",
+      // "selector-descendant-combinator-no-non-space": true,
+    }
+  }
 }
 
 
@@ -95,6 +130,21 @@ gulp.task('sass', function () {
     .pipe(browsersync.stream({match: '**/*.css'})); // this line injects style.css
 });
 
+gulp.task('lint-scss', function lintCssTask() {
+  var gulpStylelint = require('gulp-stylelint');
+
+  return gulp
+    .src('sass/**/*.scss')
+    .pipe(plumber())
+    .pipe(gulpStylelint({
+      config: config.stylelint,
+      //failAfterError: true,
+      reporters: [
+        {formatter: 'string', console: true}
+      ],
+      debug: true
+    }));
+});
 
 // ==================================================
 // MAIN TASK 
