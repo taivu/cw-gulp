@@ -9,6 +9,8 @@ var sass            = require('gulp-sass');
 var compass         = require('compass-importer');
 var autoprefixer    = require('gulp-autoprefixer');
 var sourcemaps      = require('gulp-sourcemaps');
+var stylelint       = require('gulp-stylelint');
+
 // var imagemin     = require('gulp-imagemin');
 // var pngquant     = require('imagemin-pngquant');
 
@@ -91,7 +93,7 @@ var config {
       "declaration-block-no-duplicate-properties": true,
       "string-quotes": "single",
       "value-no-vendor-prefix": true,
-
+      "rule-empty-line-before": "always",
       // "max-empty-lines": 5,
       // "number-leading-zero": "never",
       //"number-no-trailing-zeros": true,
@@ -131,12 +133,10 @@ gulp.task('sass', function () {
 });
 
 gulp.task('lint-scss', function lintCssTask() {
-  var gulpStylelint = require('gulp-stylelint');
-
   return gulp
     .src('sass/**/*.scss')
     .pipe(plumber())
-    .pipe(gulpStylelint({
+    .pipe(stylelint({
       config: config.stylelint,
       //failAfterError: true,
       reporters: [
