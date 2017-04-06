@@ -80,7 +80,7 @@ var config {
   stylelint: {
     "ignoreFiles": [
       "sass/modules/*.scss",
-      "sass/vendors/*.scss"
+      "sass/vendors/**/*.scss"
     ],
     "rules": {
       "block-no-empty": true,
