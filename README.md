@@ -19,20 +19,56 @@ Fix css injection. inserts CSS in html as `<link>` instead of `@import`. this is
 
 [https://github.com/BrowserSync/browser-sync/issues/10](https://github.com/BrowserSync/browser-sync/issues/10)
 
-*DISABLE BEFORE GOING INTO PRODUCTION*
 
-_Add this to your `THEMENAME.theme` file for drupal 8, `functions.php` for drupal 7_
+_Add this to your `THEMENAME.theme` file for drupal 8_
 
 ``` php
 /**
  * Implements hook_css_alter().
+ *
+ * Disables @import CSS tags for compatibility with BrowserSync CSS injection while developing.
  */
+function YOURTHEMENAME_css_alter(&$css) {
 
-function immedion_css_alter(&$css) {
-    foreach ($css as $key => $value) {
-        $css[$key]['preprocess'] = FALSE;
+  // get value from settings/local.settings
+  $is_css_preprocess = \Drupal::config('system.performance')->get('css')['preprocess'];
+
+  // Aggregation must be disabled.
+  if (!$is_css_preprocess) {
+
+    // Disable @import on each css file.
+    foreach ($css as &$item) {
+
+      // Compatibility with disabling stylesheets in theme.info (263967).
+      if (file_exists($item['data'])) {
+        $item['preprocess'] = FALSE;
+      }
     }
+  }
 }
 ```
 
+_Add this to your `functions.php` for drupal 7_
 
+``` php
+/**
+ * Implements hook_css_alter().
+ *
+ * Disables @import CSS tags for compatibility with BrowserSync CSS injection while developing.
+ */
+function YOURTHEMENAME_css_alter(&$css) {
+
+  // Aggregation must be disabled.
+  if (!variable_get('preprocess_css')) {
+
+    // Disable @import on each css file.
+    foreach ($css as &$item) {
+
+      // Compatibility with disabling stylesheets in theme.info (263967).
+      if (file_exists($item['data'])) {
+        $item['preprocess'] = FALSE;
+      }
+    }
+  }
+}
+```
