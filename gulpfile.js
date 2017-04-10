@@ -160,7 +160,7 @@ gulp.task('default', function(){
   browsersync.init(config.browsersync);
 
   // watch for changes on these files
-  gulp.watch('sass/**/*.scss', ['sass']);
+  gulp.watch('sass/**/*.scss', ['lint-scss','sass']);
 
   // reload on twig changes
   gulp.watch(
