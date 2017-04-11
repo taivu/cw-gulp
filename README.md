@@ -1,18 +1,24 @@
 # Overview:
 FE Workflow for Cyberwoven.
 
-## Repo:
+
+# Repo:
 https://github.com/taivu/cw-gulp
 
 
-## Front End Setup Notes:
+# Front End Setup Notes:
 1. `git clone https://github.com/taivu/cw-gulp` into project/project theme folder.
 2. Run command in terminal `npm install` (_installs `node_modules` dependencies for gulp automation, includes SCSS compiling to css and setting up a browser sync server for CSS injection, which means no reloading to see updated styles_)
 3. Run command in terminal `gulp` to start watching SCSS files for changes and to start the browserSync server.
 
-## Notes!
 
-### Drupal
+# Notes!
+
+## StyleLint
+Use `/* stylelint-disable-next-line */` to disable linting for the next line. Leave a reason for disabling as well.
+
+
+## Drupal
 Fix css injection. inserts CSS in html as `<link>` instead of `@import`. this is temporary until browser-sync can inject with `@import` statements. 
 
 [https://github.com/BrowserSync/browser-sync/issues/683](https://github.com/BrowserSync/browser-sync/issues/683)
@@ -47,6 +53,7 @@ function YOURTHEMENAME_css_alter(&$css) {
   }
 }
 ```
+
 
 _Add this to your `functions.php` for drupal 7_
 
