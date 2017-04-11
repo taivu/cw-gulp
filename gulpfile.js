@@ -26,7 +26,7 @@ var config {
   sassError: function(error) { // custom function for SASS errors (used in task 'sass')
     sass.logError.bind(this)(error);
     browsersync.notify(
-      '<pre style="max-width: 600px; text-align: left; margin: 0;">' +
+      '<pre style="max-width: 50%; text-align: left; margin: 0; font-family: Consolas, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, Monaco, Courier New, Courier, monospace;">' +
       '<strong style="color: red;">SASS ERROR</strong><br>' + 
       error.formatted +
       '</pre>'
@@ -56,6 +56,22 @@ var config {
     //     display: 'block',
     //     width: '100%',
     //     backgroundColor: 'rgba(60, 197, 31, 0.75)'
+
+            // defaults with tweaks
+            // display: 'block',
+            // padding: '15px',
+            // fontFamily: 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", Courier, monospace',
+            // position: 'fixed',
+            // fontSize: '0.9em',
+            // zIndex: '9999',
+            // top: 'auto',
+            // right: '0px',
+            // bottom: '0px',
+            // borderBottomLeftRadius:' 5px',
+            // backgroundColor: 'rgb(27, 32, 50)',
+            // margin: '0px',
+            // color: 'white',
+            // textAlign: 'center',
     //   }
     // },
     // uncomment for static server
