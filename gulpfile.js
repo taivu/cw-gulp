@@ -18,7 +18,7 @@ var stylelint       = require('gulp-stylelint');
 var browsersync     = require('browser-sync').create(siteUrl);
     browsersync     = require('browser-sync').get(siteUrl);
 
-var config {
+var config = {
   sass: { // config obj for SASS compilation ------------------------------------------------------------------
     outputStyle: 'compressed', 
     importer: compass
