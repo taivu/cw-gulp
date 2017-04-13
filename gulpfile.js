@@ -72,8 +72,6 @@ var config = {
     ],
     "extends": "stylelint-config-standard",
     "rules": {
-      "number-no-trailing-zeros": null,
-      "number-leading-zero": null,
       "at-rule-empty-line-before": [ "always", {
         except: [
           "after-same-name",
@@ -82,10 +80,12 @@ var config = {
         ],
         ignore: ["after-comment"],
       } ],
-      "selector-pseudo-element-colon-notation": null,
       "comment-whitespace-inside": null,
       "no-extra-semicolons": true,
-      "property-no-vendor-prefix": true
+      "number-no-trailing-zeros": null,
+      "number-leading-zero": null,
+      "property-no-vendor-prefix": true,
+      "selector-pseudo-element-colon-notation": null,
     }
   }
 }
