@@ -5,7 +5,11 @@ Styles:
   ☐ look into stylefmt to fix styles automagically.
   ☐ look into plugins to reorder properties
 
-Thoughts:
+Thoughts/Research Topics:
   ☐ could this be a base for drupal theming?
   ☐ git clone workflow
   ☐ what things should not be in this gulp file? (stylefmt?)
+  ☐ look into synchronously running tasks. (Gulp 4)?
+  ☐ can all this be run as npm scripts?
+  ☐ changelog.md?
+  
