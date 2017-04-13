@@ -8,24 +8,26 @@ https://github.com/taivu/cw-gulp
 
 # Front End Setup Notes:
 1. `git clone https://github.com/taivu/cw-gulp` into project/project theme folder.
-2. Run command in terminal `npm install` (_installs `node_modules` dependencies for gulp automation, includes SCSS compiling to css and setting up a browser sync server for CSS injection, which means no reloading to see updated styles_)
-3. Run command in terminal `gulp` to start watching SCSS files for changes and to start the browserSync server.
+2. Pull `gulpfile.js` and `package.json` into theme folder.
+3. In theme folder, run command in terminal `npm install` (_installs `node_modules` dependencies for gulp automation, includes SCSS compiling to css and setting up a browser sync server for CSS injection, which means no reloading to see updated styles, and other goodies_)
+4. Run command in terminal `gulp` to start watching SCSS files for changes and to start the browserSync server.
 
 
 # Notes!
+
 
 ## StyleLint
 Use `/* stylelint-disable-next-line */` to disable linting for the next line. Leave a reason for disabling as well.
 
 
-## Drupal
-Fix css injection. inserts CSS in html as `<link>` instead of `@import`. this is temporary until browser-sync can inject with `@import` statements. 
+## Drupal Theming
+Fix css injection. Inserts CSS in html as `<link>` instead of `@import`. This is temporary until browser-sync can inject with `@import` statements. 
 
 [https://github.com/BrowserSync/browser-sync/issues/683](https://github.com/BrowserSync/browser-sync/issues/683)
-
 [https://github.com/BrowserSync/browser-sync/issues/10](https://github.com/BrowserSync/browser-sync/issues/10)
 
 
+### Drupal 8
 _Add this to your `THEMENAME.theme` file for drupal 8_
 
 ``` php
@@ -55,6 +57,7 @@ function YOURTHEMENAME_css_alter(&$css) {
 ```
 
 
+### Drupal 7
 _Add this to your `functions.php` for drupal 7_
 
 ``` php

@@ -1,0 +1,11 @@
+# Front End Workflow
+
+Styles:
+  ☐ look into postCSS to replace gulp-sass.
+  ☐ look into stylefmt to fix styles automagically.
+  ☐ look into plugins to reorder properties
+
+Thoughts:
+  ☐ could this be a base for drupal theming?
+  ☐ git clone workflow
+  ☐ what things should not be in this gulp file? (stylefmt?)
