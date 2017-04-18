@@ -24,6 +24,7 @@ Use `/* stylelint-disable-next-line */` to disable linting for the next line. Le
 Fix css injection. Inserts CSS in html as `<link>` instead of `@import`. This is temporary until browser-sync can inject with `@import` statements. 
 
 [https://github.com/BrowserSync/browser-sync/issues/683](https://github.com/BrowserSync/browser-sync/issues/683)
+
 [https://github.com/BrowserSync/browser-sync/issues/10](https://github.com/BrowserSync/browser-sync/issues/10)
 
 
