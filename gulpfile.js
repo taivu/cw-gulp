@@ -1,7 +1,6 @@
 // CONFIG ________________________________________
 var siteUrl = __dirname.split('/pub/')[0].split('/').pop() + '.test'; // use '.test' or .sandbox. I like '.test'
 
-
 // REQUIRES ________________________________________
 var gulp            = require('gulp');
 var plumber         = require('gulp-plumber');
@@ -11,14 +10,14 @@ var autoprefixer    = require('gulp-autoprefixer');
 var sourcemaps      = require('gulp-sourcemaps');
 var stylelint       = require('gulp-stylelint');
 
-
 // pass in siteUrl to create a unique instance for multiple instances.
 var browsersync     = require('browser-sync').create(siteUrl);
     browsersync     = require('browser-sync').get(siteUrl);
 
 
 var config = {
-  sass: { // config obj for SASS compilation ------------------------------------------------------------------
+  // config obj for SASS compilation --------------------------------------------------------------
+  sass: {
     outputStyle: 'compressed', 
     importer: compass
   },
@@ -28,10 +27,10 @@ var config = {
       '<pre style="max-width: 50%; text-align: left; margin: 0; font-family: Consolas, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, Monaco, Courier New, Courier, monospace;">' +
       '<strong style="color: red;">SASS ERROR</strong><br>' + 
       error.formatted +
-      '</pre>'
-      , 5000);
+      '</pre>', 5000);
   },
-  browsersync: { // browser sync config obj ------------------------------------------------------------------
+  // browser sync config obj ----------------------------------------------------------------------
+  browsersync: { 
     logLevel: 'debug',
     logPrefix: siteUrl,
     open: false,
@@ -39,11 +38,13 @@ var config = {
     host: siteUrl,
     port: 4000,
     notify: {
-      styles: { // override some of the default styling
+      // override some of the default styling
+      styles: {
         fontFamily: 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", Courier, monospace',
         top: 'auto',
         bottom: '0px',
-        borderBottomLeftRadius:' 5px',
+        borderBottomLeftRadius:'0',
+        borderTopLeftRadius: '5px'
       }
     },
     // uncomment for static server
@@ -55,7 +56,8 @@ var config = {
     //     fallthrough: false
     // }
   },
-  autoprefixer: [ // array for autoprefixer config ------------------------------------------------------------
+  // autoprefixer config ----------------------------------------------------------------
+  autoprefixer: [ 
     'last 2 version', 
     'safari 5', 
     'ie 7', 
@@ -65,49 +67,42 @@ var config = {
     'ios 6', 
     'android 4'
   ],
-  stylelint: { // stylelint config ----------------------------------------------------------------------------
-    "ignoreFiles": [
-      "sass/modules/*.scss",
-      "sass/vendors/**/*.scss"
+  // stylelint config -----------------------------------------------------------------------------
+  stylelint: { 
+    'ignoreFiles': [
+      'sass/modules/*.scss',
+      'sass/vendor/**/*.scss'
     ],
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "at-rule-empty-line-before": [ "always", {
+    'extends': 'stylelint-config-standard',
+    'rules': {
+      'at-rule-empty-line-before': ['always', {
         except: [
-          "after-same-name",
-          "blockless-after-same-name-blockless",
-          "first-nested",
+          'after-same-name',
+          'blockless-after-same-name-blockless',
+          'first-nested',
         ],
-        ignore: ["after-comment"],
-      } ],
-      "comment-whitespace-inside": null,
-      "no-extra-semicolons": true,
-      "number-no-trailing-zeros": null,
-      "number-leading-zero": null,
-      "property-no-vendor-prefix": true,
-      "selector-pseudo-element-colon-notation": null,
+        ignore: ['after-comment'],
+      }],
+      'at-rule-no-unknown': [true, {
+        ignoreAtRules: ['include', 'extend']
+      }],
+      'comment-whitespace-inside': null,
+      'no-extra-semicolons': true,
+      'number-no-trailing-zeros': null,
+      'number-leading-zero': null,
+      'property-no-vendor-prefix': true,
+      'selector-pseudo-element-colon-notation': null,
     }
   }
 }
 
 
 
-// ==================================================
+// ================================================================================================
 // Tasks
-// ==================================================
+// ================================================================================================
 
-// compile sass and return stream
-gulp.task('sass', function () {
-  return gulp.src('sass/**/*.scss')
-    .pipe(plumber())
-    .pipe(sourcemaps.init())
-    .pipe(sass(config.sass).on('error', config.sassError))
-    .pipe(autoprefixer(config.autoprefixer))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('css'))
-    .pipe(browsersync.stream({match: '**/*.css'})); // this line injects style.css
-});
-
+// lint scss files
 gulp.task('lint-scss', function lintCssTask() {
   return gulp
     .src('sass/**/*.scss')
@@ -120,6 +115,18 @@ gulp.task('lint-scss', function lintCssTask() {
       ],
       debug: true
     }));
+});
+
+// compile sass and return stream
+gulp.task('sass', function () {
+  return gulp.src('sass/**/*.scss')
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(sass(config.sass).on('error', config.sassError))
+    .pipe(autoprefixer(config.autoprefixer))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('css'))
+    .pipe(browsersync.stream({match: '**/*.css'})); // this line injects style.css
 });
 
 // ==================================================
@@ -136,10 +143,11 @@ gulp.task('default', function(){
   // reload on twig changes
   gulp.watch(
     [
-      'templates/**/*.twig'
+      'templates/**/*.twig',   // D8
+      'templates/**/*.tpl.php' // D7
     ], 
     function () {
-      browsersync.notify('<span style="color: red;">Twig changes detected</span>, browser refreshing...');
+      browsersync.notify('<span style="color: red;">Template changes detected</span>, browser refreshing...');
       browsersync.reload();
     });
 });

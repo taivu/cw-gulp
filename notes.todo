@@ -12,4 +12,6 @@ Thoughts/Research Topics:
   ☐ look into synchronously running tasks. (Gulp 4)?
   ☐ can all this be run as npm scripts?
   ☐ changelog.md?
+  ☐ ES6 support via babel?
+  ☐ pattern-lab integration?
   
