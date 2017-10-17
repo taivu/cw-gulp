@@ -15,8 +15,8 @@
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
-    "gulp-stylelint": "^4.0.0",
-    "node-datetime": "^2.0.0",
+    "gulp-stylelint": "^5.0.0",
+    "node-datetime": "^2.0.3",
     "stylelint-config-standard": "^17.0.0"
   }
 }

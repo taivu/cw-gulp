@@ -158,10 +158,9 @@ gulp.task('default', function () {
   // set up browsersync server
   browsersync.init(config.browsersync.opts);
 
-  // watch for changes on these files
+  // watch for changes for SCSS files
   browsersync.watch('sass/**/*.scss', function(event, file) {
-    console.log('\nEVENT: ' + event);
-    console.log('FILE: ' + file);
+    console.log('\n[' + event + '] ' + file + '\n');
 
     if (event === 'change') {
       return gulp.src('sass/**/*.scss')
@@ -175,34 +174,16 @@ gulp.task('default', function () {
     }
   });
 
-  // reload on twig changes
+  // reload on file changes for BS watch list set in config.
   browsersync.watch(
     config.browsersync.watch, 
     function (event, file) {
+      console.log('\n[' + event + '] ' + file + '\n');
+
       if (event === 'change') {
-        browsersync.notify('<span style="color: red;">Template changes detected</span>, browser refreshing...');
+        browsersync.notify('<span style="color: red;">' + file + ' ' + event +'</span>, browser refreshing...');
         browsersync.reload();
       }
     });
 });
 
-
-gulp.task('watch-lint', function () {
-  
-    // set up browsersync server
-    browsersync.init(config.browsersync.opts);
-  
-    // watch for changes on these files
-    gulp.watch('sass/**/*.scss', ['lint-scss','sass']);
-  
-    // reload on twig changes
-    gulp.watch(
-      [
-        'templates/**/*.twig',   // D8
-        'templates/**/*.tpl.php' // D7
-      ], 
-      function () {
-        browsersync.notify('<span style="color: red;">Template changes detected</span>, browser refreshing...');
-        browsersync.reload();
-      });
-  });
