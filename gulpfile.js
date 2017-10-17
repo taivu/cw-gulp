@@ -6,6 +6,7 @@ var gulp            = require('gulp');
 var plumber         = require('gulp-plumber');
 var sass            = require('gulp-sass');
 // var compass         = require('compass-importer');
+var bourbon         = require('bourbon').includePaths;
 var autoprefixer    = require('gulp-autoprefixer');
 var sourcemaps      = require('gulp-sourcemaps');
 var stylelint       = require('gulp-stylelint');
@@ -19,7 +20,8 @@ var browsersync     = require('browser-sync').create(siteUrl);
 var config = {
   // config obj for SASS compilation --------------------------------------------------------------
   sass: {
-    outputStyle: 'compressed', 
+    outputStyle: 'compressed',
+    includePaths: bourbon
     //importer: compass
   },
   // custom function for SASS errors (used in task 'sass')
@@ -32,31 +34,37 @@ var config = {
       '</pre>', 5000);
   },
   // browser sync config obj ----------------------------------------------------------------------
-  browsersync: { 
-    logLevel: 'debug',
-    logPrefix: siteUrl,
-    open: false,
-    proxy: siteUrl,
-    host: siteUrl,
-    port: 4000,
-    notify: {
-      // override some of the default styling
-      styles: {
-        fontFamily: 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", Courier, monospace',
-        top: 'auto',
-        bottom: '0',
-        borderBottomLeftRadius: '0',
-        borderTopLeftRadius: '5px'
-      }
+  browsersync: {
+    opts: { 
+      logLevel: 'debug',
+      logPrefix: siteUrl,
+      open: false,
+      proxy: siteUrl,
+      host: siteUrl,
+      port: 4000,
+      notify: {
+        // override some of the default styling
+        styles: {
+          fontFamily: 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", Courier, monospace',
+          top: 'auto',
+          bottom: '0',
+          borderBottomLeftRadius: '0',
+          borderTopLeftRadius: '5px'
+        }
+      },
+      // uncomment for static server
+      // serveStatic: [{
+      //     route: ['/build', '/build/css'],
+      //     dir: ['./build', './../css']
+      // }],
+      // serveStaticOptions: {
+      //     fallthrough: false
+      // }
     },
-    // uncomment for static server
-    // serveStatic: [{
-    //     route: ['/build', '/build/css'],
-    //     dir: ['./build', './../css']
-    // }],
-    // serveStaticOptions: {
-    //     fallthrough: false
-    // }
+    watch: [
+      'templates/**/*.twig',   // D8
+      'templates/**/*.tpl.php' // D7
+    ]
   },
   // autoprefixer config ----------------------------------------------------------------
   autoprefixer: [ 
@@ -148,20 +156,33 @@ gulp.task('sass', function () {
 gulp.task('default', function () {
 
   // set up browsersync server
-  browsersync.init(config.browsersync);
+  browsersync.init(config.browsersync.opts);
 
   // watch for changes on these files
-  gulp.watch('sass/**/*.scss', ['sass']);
+  browsersync.watch('sass/**/*.scss', function(event, file) {
+    console.log('\nEVENT: ' + event);
+    console.log('FILE: ' + file);
+
+    if (event === 'change') {
+      return gulp.src('sass/**/*.scss')
+      .pipe(plumber())
+      .pipe(sourcemaps.init())
+      .pipe(sass(config.sass).on('error', config.sassError))
+      .pipe(autoprefixer(config.autoprefixer))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('css'))
+      .pipe(browsersync.stream({match: '**/*.css'})); // this line injects style.css
+    }
+  });
 
   // reload on twig changes
-  gulp.watch(
-    [
-      'templates/**/*.twig',   // D8
-      'templates/**/*.tpl.php' // D7
-    ], 
-    function () {
-      browsersync.notify('<span style="color: red;">Template changes detected</span>, browser refreshing...');
-      browsersync.reload();
+  browsersync.watch(
+    config.browsersync.watch, 
+    function (event, file) {
+      if (event === 'change') {
+        browsersync.notify('<span style="color: red;">Template changes detected</span>, browser refreshing...');
+        browsersync.reload();
+      }
     });
 });
 
@@ -169,7 +190,7 @@ gulp.task('default', function () {
 gulp.task('watch-lint', function () {
   
     // set up browsersync server
-    browsersync.init(config.browsersync);
+    browsersync.init(config.browsersync.opts);
   
     // watch for changes on these files
     gulp.watch('sass/**/*.scss', ['lint-scss','sass']);
