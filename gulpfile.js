@@ -62,6 +62,8 @@ var config = {
       // }
     },
     watch: [
+      'img/*.*',
+      'js/*.js',
       'templates/**/*.twig',   // D8
       'templates/**/*.tpl.php' // D7
     ]
@@ -126,10 +128,10 @@ gulp.task('lint-scss', function lintCssTask() {
     .pipe(stylelint({
       config: config.stylelint,
       //failAfterError: true,
-      reportOutputDir: 'reports',
+      //reportOutputDir: 'reports',
       reporters: [
         // for documentation
-        { formatter: 'verbose', save: 'stylelint-report-' + formattedDate + '.txt' },
+        //{ formatter: 'verbose', save: 'stylelint-report-' + formattedDate + '.txt' },
 
         // for convienence while fixing
         { formatter: 'string', console: false }
@@ -139,7 +141,7 @@ gulp.task('lint-scss', function lintCssTask() {
 });
 
 // compile sass and return stream
-gulp.task('sass', function () {
+gulp.task('sass', ['lint-scss'], function () {
   return gulp.src('sass/**/*.scss')
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -160,17 +162,9 @@ gulp.task('default', function () {
 
   // watch for changes for SCSS files
   browsersync.watch('sass/**/*.scss', function(event, file) {
-    console.log('\n[' + event + '] ' + file + '\n');
-
     if (event === 'change') {
-      return gulp.src('sass/**/*.scss')
-      .pipe(plumber())
-      .pipe(sourcemaps.init())
-      .pipe(sass(config.sass).on('error', config.sassError))
-      .pipe(autoprefixer(config.autoprefixer))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('css'))
-      .pipe(browsersync.stream({match: '**/*.css'})); // this line injects style.css
+      console.log('\n[' + event + '] ' + file + '\n');
+      gulp.start('sass');
     }
   });
 
@@ -179,7 +173,6 @@ gulp.task('default', function () {
     config.browsersync.watch, 
     function (event, file) {
       console.log('\n[' + event + '] ' + file + '\n');
-
       if (event === 'change') {
         browsersync.notify('<span style="color: red;">' + file + ' ' + event +'</span>, browser refreshing...');
         browsersync.reload();
