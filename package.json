@@ -9,13 +9,14 @@
   "devDependencies": {
     "bourbon": "^4.3.4",
     "browser-sync": "^2.18.13",
-    //"compass-importer": "^0.4.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-stylelint": "^5.0.0",
+    "inquirer": "^3.3.0",
+    "json2yaml": "^1.1.0",
     "node-datetime": "^2.0.3",
     "stylelint-config-standard": "^17.0.0"
   }

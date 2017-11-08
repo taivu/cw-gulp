@@ -84,3 +84,7 @@ function YOURTHEMENAME_css_alter(&$css) {
   }
 }
 ```
+
+## Future Plans:
+
+- `DOPETHEME.theme`, `DOPETHEME.info.yml`, `DOPETHEME.libraries.yml` generation via cli.
